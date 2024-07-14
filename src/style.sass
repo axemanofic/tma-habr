@@ -1,0 +1,39 @@
+@import "normalize.css"
+
+*
+    list-style: none
+    padding: 0
+    margin: 0
+    -webkit-user-select: none /* Chrome/Safari */
+    -moz-user-select: none /* Firefox */
+    -ms-user-select: none /* IE/Edge */
+    user-select: none /* Стандартный синтаксис */
+
+body
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+    font-size: 1.5rem
+    background-color: var(--tg-theme-secondary-bg-color)
+    color: var(--tg-theme-text-color)
+
+#app
+    width: 100vw
+    height: var(--tg-viewport-stable-height, 100vh)
+    display: flex
+    align-self: center
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
+    .container
+        display: flex
+        flex-direction: row
+        justify-content: center
+        align-items: center
+
+button
+    padding: 10px
+    color: var(--tg-theme-button-text-color)
+    background-color: var(--tg-theme-button-color)
+    border: none
+    font: inherit
+    cursor: pointer
