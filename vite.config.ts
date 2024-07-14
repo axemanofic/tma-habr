@@ -7,6 +7,7 @@ const { NGROK_AUTH_TOKEN, NGROK_DOMAIN } = loadEnv("", process.cwd(), "NGROK");
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/tma-habr/',
   plugins: [
     ngrok({
       domain: NGROK_DOMAIN,
@@ -21,5 +22,8 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+  },
+  preview: {
+    port: 8000
   },
 });
