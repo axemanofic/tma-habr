@@ -37,3 +37,13 @@ button
     border: none
     font: inherit
     cursor: pointer
+
+@media (prefers-color-scheme: dark)
+    body
+        background-color: var(--tg-theme-secondary-bg-color, black)
+        color: var(--tg-theme-text-color, white)
+
+@media (prefers-color-scheme: light)
+    body
+        background-color: var(--tg-theme-secondary-bg-color, white)
+        color: var(--tg-theme-text-color, black)

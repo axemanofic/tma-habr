@@ -1,29 +1,46 @@
 import { fileURLToPath } from "url";
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig, loadEnv, PluginOption } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { ngrok } from "vite-plugin-ngrok";
-
-const { NGROK_AUTH_TOKEN, NGROK_DOMAIN } = loadEnv("", process.cwd(), "NGROK");
+// @ts-ignore
+import localtunnel from "vite-plugin-localtunnel";
+// @ts-ignore
+import eruda from "vite-plugin-eruda";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  base: '/tma-habr/',
-  plugins: [
-    ngrok({
-      domain: NGROK_DOMAIN,
-      authtoken: NGROK_AUTH_TOKEN,
-    }),
-    vue(),
-  ],
-  resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+export default defineConfig(({ mode }) => {
+  const env = { ...loadEnv("", process.cwd(), "") };
+  let plugins: PluginOption[] = [vue(), eruda({ debug: true })];
+
+  if (env.HTTP_TUNNEL == "ngrok") {
+    plugins.push(
+      ngrok({
+        domain: env.NGROK_DOMAIN,
+        authtoken: env.NGROK_AUTH_TOKEN,
+        port: parseInt(env.PORT),
+      })
+    );
+  } else if (env.HTTP_TUNNEL == "localtunnel") {
+    plugins.push(
+      localtunnel({
+        subdomain: "dev-tma",
+        port: parseInt(env.PORT),
+      })
+    );
+  }
+  return {
+    base: "/tma-habr/",
+    plugins: plugins,
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
+      },
     },
-  },
-  server: {
-    port: 3000,
-  },
-  preview: {
-    port: 8000
-  },
+    server: {
+      port: parseInt(env.PORT),
+    },
+    preview: {
+      port: 8000,
+    },
+  };
 });
